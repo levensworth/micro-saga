@@ -1,0 +1,30 @@
+[project]
+name = "micro-saga"
+version = "0.1.0"
+description = "A small implementation of retry mechanism inspired by Saga pattern"
+authors = [
+    {name = "Santiago Bassani", email = "santi@levensworth.com"}
+]
+# Specify the package path
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [{ include = "micro_saga", from = "src" }]
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.16.1"
+ruff = "^0.12.3"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.4.1"
+pytest-cov = "^6.2.1"
+
