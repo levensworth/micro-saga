@@ -8,7 +8,15 @@ def always_succeed(x):
     return x
 
 
+async def async_always_succeed(x):
+    return x
+
+
 def always_fail():
+    raise ValueError("fail")
+
+
+async def async_always_fail():
     raise ValueError("fail")
 
 
@@ -16,7 +24,15 @@ def comp_ok():
     return "compensated"
 
 
+async def async_comp_ok():
+    return "compensated"
+
+
 def comp_fail():
+    raise RuntimeError("comp_fail")
+
+
+async def async_comp_fail():
     raise RuntimeError("comp_fail")
 
 
