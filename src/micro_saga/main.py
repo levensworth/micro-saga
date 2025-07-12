@@ -1,4 +1,3 @@
-# type: ignore
 from concurrent.futures import Future, ThreadPoolExecutor
 from functools import partial
 from typing import Any, Callable, List, Optional, ParamSpec, TypeVar
@@ -39,7 +38,7 @@ class SagaAssembler:
     Saga assembler to create saga.
     """
 
-    def __init__(self, retry_attempts: Optional[int] = None) -> None:
+    def __init__(self, retry_attempts: int | None = None) -> None:
         self.__retry_attempts: int = retry_attempts or 1
         self.__operations: List[Operation] = []
         self.__saga_results: List[Any] = []
@@ -52,9 +51,9 @@ class SagaAssembler:
         def __init__(
             self,
             operation_error: Exception,
-            operation_name: Optional[str] = None,
-            compensation_success_result: Optional[Any] = None,
-            compensation_error: Optional[Any] = None,
+            operation_name: str | None = None,
+            compensation_success_result: Any | None = None,
+            compensation_error: Any | None = None,
         ) -> None:
             self.operation_name = operation_name
             self.operation_error = operation_error
@@ -125,7 +124,6 @@ class SagaAssembler:
             try:
                 # preserve saga_results in the function if needed
                 setattr(func, "saga_results", self.__saga_results)
-                func()
                 response = func()
                 self.__saga_results.append(response)
             except Exception as err:
@@ -155,7 +153,9 @@ class SagaAssembler:
                 )
                 raise self.SagaException(
                     operation_error,
-                    op.action.func.__name__ if hasattr(op.action, "func") else op.action.__name__,  # type: ignore
+                    op.action.func.__name__
+                    if hasattr(op.action, "func")
+                    else op.action.__name__,  # type: ignore
                     comp_success,
                     comp_errors,
                 )
